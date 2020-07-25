@@ -20,3 +20,16 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('login/{provider}', 'Auth\SocialController@redirectToProvider')->name('social.login');
+Route::get('login/{provider}/callback', 'Auth\SocialController@handleProviderCallback');
+
+
+
+// Auth::routes();
+
+// Route::get('/home', 'HomeController@index')->name('home');
+
+// Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
