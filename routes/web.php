@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,23 +11,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Mail\NewUserWelcomeMail;
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/email', function () {
+    return new NewUserWelcomeMail();
+});
 
-Route::get('login/{provider}', 'Auth\SocialController@redirectToProvider')->name('social.login');
-Route::get('login/{provider}/callback', 'Auth\SocialController@handleProviderCallback');
+Route::post('follow/{user}', 'FollowsController@store');
 
+Route::get('/', 'PostsController@index');
+Route::get('/p/create', 'PostsController@create');
+Route::post('/p', 'PostsController@store');
+Route::get('/p/{post}', 'PostsController@show');
 
-
-// Auth::routes();
-
-// Route::get('/home', 'HomeController@index')->name('home');
-
-// Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/profile/{user}', 'ProfilesController@index')->name('profile.show');
+Route::get('/profile/{user}/edit', 'ProfilesController@edit')->name('profile.edit');
+Route::patch('/profile/{user}', 'ProfilesController@update')->name('profile.update');
